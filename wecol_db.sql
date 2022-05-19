@@ -1,3 +1,5 @@
+DROP DATABASE `wecol_db`;
+
 DROP DATABASE IF EXISTS `wecol_db`;
 CREATE DATABASE `wecol_db`;
 
@@ -91,7 +93,9 @@ CREATE TABLE `opinions` (
 );
 ALTER TABLE `opinions`
     ADD COLUMN `products_id2` INT NOT NULL,
-    ADD CONSTRAINT `FK_products_id2` FOREIGN KEY (`products_id2`) REFERENCES products(`id`);
+    ADD COLUMN `users_id3` INT NOT NULL,
+    ADD CONSTRAINT `FK_products_id2` FOREIGN KEY (`products_id2`) REFERENCES products(`id`),
+    ADD CONSTRAINT `FK_users_id3` FOREIGN KEY (`users_id3`) REFERENCES users(`id`);
 
 INSERT INTO `categories` VALUES
                              (1, 'Mouse'),
