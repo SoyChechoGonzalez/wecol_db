@@ -78,12 +78,6 @@ CREATE TABLE `brands` (
     `name` VARCHAR(45) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 );
-ALTER TABLE `products`
-    ADD COLUMN `categories_id` INT NOT NULL,
-    ADD COLUMN `brands_id` INT NOT NULL,
-    ADD CONSTRAINT `FK_categories_id` FOREIGN KEY (`categories_id`) REFERENCES categories(`id`),
-    ADD CONSTRAINT `FK_brands_id` FOREIGN KEY (`brands_id`) REFERENCES brands(`id`);
-
 CREATE TABLE `opinions` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(100) NOT NULL,
@@ -91,6 +85,13 @@ CREATE TABLE `opinions` (
     `response` VARCHAR(280) NOT NULL,
     PRIMARY KEY (`id`)
 );
+
+ALTER TABLE `products`
+    ADD COLUMN `categories_id` INT NOT NULL,
+    ADD COLUMN `brands_id` INT NOT NULL,
+    ADD CONSTRAINT `FK_categories_id` FOREIGN KEY (`categories_id`) REFERENCES categories(`id`),
+    ADD CONSTRAINT `FK_brands_id` FOREIGN KEY (`brands_id`) REFERENCES brands(`id`);
+
 ALTER TABLE `opinions`
     ADD COLUMN `products_id2` INT NOT NULL,
     ADD COLUMN `users_id3` INT NOT NULL,
@@ -107,7 +108,21 @@ INSERT INTO `categories` VALUES
                              (7, 'Celulares');
 
 INSERT INTO `categories`(`name`)
-    VALUES ('Tablet');
+    VALUES ('Headphones');
 
 INSERT INTO `categories`(`name`)
 VALUES ('Cargador');
+
+INSERT INTO `brands` (`name`)
+    VALUES('Apple');
+
+INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
+    VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1),
+            ('AirPods', '2000000', 'Esto son unos AirPods', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1),
+           ('iPhone', '3000000', 'Esto es un iPhone', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1);
+
+INSERT INTO `countries` (`id`, `name`)
+    VALUES(057, 'Colombia');
+
+INSERT INTO `users` (`username`, `firstname`, `lastname`, `address`, `email`, `phone`, `avatar`, `password`, wecol_db.users.`countries_id`)
+    VALUES ('SoyChechoGonzalez', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'soysergiogonzalez@outlook.es', '3008341223', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057);
