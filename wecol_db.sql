@@ -24,22 +24,18 @@ CREATE TABLE `users` (
    PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `users`
-    ADD COLUMN `countries_id` INT(3) NOT NULL,
-    ADD CONSTRAINT `FK_countries_id` FOREIGN KEY (`countries_id`) REFERENCES countries(`id`);
-
 CREATE TABLE `roles` (
     `id` INT(1) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 );
-CREATE TABLE `users_roles` (
-    `users_id` INT NOT NULL,
-    `roles_id` INT(1) NOT NULL
-);
-ALTER TABLE `users_roles`
-    ADD CONSTRAINT `FK_users_id` FOREIGN KEY (`users_id`) REFERENCES users(`id`),
+
+ALTER TABLE `users`
+    ADD COLUMN `countries_id` INT(3) NOT NULL,
+    ADD COLUMN `roles_id` INT(1) NOT NULL,
+    ADD CONSTRAINT `FK_countries_id` FOREIGN KEY (`countries_id`) REFERENCES countries(`id`),
     ADD CONSTRAINT `FK_roles_id` FOREIGN KEY (`roles_id`) REFERENCES roles(`id`);
+
 
 CREATE TABLE `shoppingcart` (
     `id` INT NOT NULL,
@@ -107,14 +103,13 @@ INSERT INTO `categories` VALUES
                              (6, 'Portátiles'),
                              (7, 'Celulares');
 
-INSERT INTO `categories`(`name`)
-    VALUES ('Headphones');
-
-INSERT INTO `categories`(`name`)
-VALUES ('Cargador');
-
 INSERT INTO `brands` (`name`)
-    VALUES('Apple');
+    VALUES('Apple'),
+            ('Samsung'),
+            ('Logitech'),
+            ('Marshall'),
+            ('Alien'),
+            ('Beats');
 
 INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
     VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1),
@@ -124,5 +119,14 @@ INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`
 INSERT INTO `countries` (`id`, `name`)
     VALUES(057, 'Colombia');
 
-INSERT INTO `users` (`username`, `firstname`, `lastname`, `address`, `email`, `phone`, `avatar`, `password`, wecol_db.users.`countries_id`)
-    VALUES ('SoyChechoGonzalez', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'soysergiogonzalez@outlook.es', '3008341223', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057);
+INSERT INTO `roles` (`name`)
+    VALUES ('admin'),
+            ('normal');
+
+INSERT INTO `users` (`username`, `firstname`, `lastname`, `address`, `email`, `phone`, `avatar`, `password`, wecol_db.users.`countries_id`, `roles_id`)
+    VALUES ('sergiog', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'sergio.gonzalez@wecol.com', '3000000000', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057, 1),
+            ('jenniferp', 'Jennifer', 'Perez Romero', 'Calle siempre viva', 'jenny.perez@wecol.com', '3220000000', 'https://avatars.githubusercontent.com/u/96081774?v=4', 'Temporal2022*', 057, 1),
+            ('davidn', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'luis.nunez@wecol.com', '3221111111', 'https://avatars.githubusercontent.com/u/89990712?v=4', 'Temporal2022*', 057, 1),
+            ('SoyChechoGonzalez', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'soysergiogonzalez@outlook.es', '3008341223', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057, 2),
+            ('PRJennifer', 'Jennifer', 'Pérez Romero', 'Calle siempre viva', 'prjennifer@hotmail.com', '3224591043', 'https://avatars.githubusercontent.com/u/96081774?v=4', 'Temporal2022*', 057, 2),
+            ('DavidNr13', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'nrld13@hotmail.com', '3229808475', 'https://avatars.githubusercontent.com/u/89990712?v=4', 'Temporal2022*', 057, 2);
