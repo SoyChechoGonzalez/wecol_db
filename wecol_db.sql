@@ -8,6 +8,7 @@ USE `wecol_db`;
 CREATE TABLE `countries` (
     `id` INT(3) NOT NULL,
     `name` VARCHAR(45) NOT NULL UNIQUE,
+    `countryCode` VARCHAR(2) NOT NULL DEFAULT 'CO' UNIQUE,
     PRIMARY KEY (`id`)
 );
 
@@ -20,7 +21,7 @@ CREATE TABLE `users` (
    `email` VARCHAR(80) NOT NULL UNIQUE,
    `phone` BIGINT(15) UNSIGNED NOT NULL UNIQUE,
    `avatar` TEXT(200) NOT NULL,
-   `password` VARCHAR(45) NOT NULL,
+   `password` VARCHAR(300) NOT NULL,
    PRIMARY KEY (`id`)
 );
 
@@ -50,9 +51,9 @@ ALTER TABLE `shoppingcart`
 CREATE TABLE `products` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
-    `price` INT UNSIGNED NOT NULL,
-    `description` TEXT(300) NOT NULL,
-    `image` VARCHAR(200) NOT NULL,
+    `price` INT UNSIGNED NOT NULL DEFAULT 0,
+    `description` VARCHAR(45) NOT NULL,
+    `image` VARCHAR(200) NOT NULL DEFAULT 'sergio.png',
     PRIMARY KEY (`id`)
 );
 CREATE TABLE `products_shoppingcart` (
@@ -83,8 +84,8 @@ CREATE TABLE `opinions` (
 );
 
 ALTER TABLE `products`
-    ADD COLUMN `categories_id` INT NOT NULL,
-    ADD COLUMN `brands_id` INT NOT NULL,
+    ADD COLUMN `categories_id` INT NOT NULL DEFAULT 1,
+    ADD COLUMN `brands_id` INT NOT NULL DEFAULT 1,
     ADD CONSTRAINT `FK_categories_id` FOREIGN KEY (`categories_id`) REFERENCES categories(`id`),
     ADD CONSTRAINT `FK_brands_id` FOREIGN KEY (`brands_id`) REFERENCES brands(`id`);
 
@@ -112,11 +113,15 @@ INSERT INTO `brands` (`name`)
             ('Beats');
 
 INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
-    VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1),
-            ('AirPods', '2000000', 'Esto son unos AirPods', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1),
-           ('iPhone', '3000000', 'Esto es un iPhone', 'https://avatars.githubusercontent.com/u/61368094?v=4', 1, 1);
+    VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'sergio.png', 1, 1),
+            ('AirPods', '2000000', 'Esto son unos AirPods', 'sergio.png', 1, 1),
+           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 1, 1),
+           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 1, 1);
 
-INSERT INTO `countries` (`id`, `name`)
+INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
+    VALUES ('MP3', '15000', 'Esto es una MP3', 'sergio.png', 4, 2);
+
+    INSERT INTO `countries` (`id`, `name`)
     VALUES(057, 'Colombia');
 
 INSERT INTO `roles` (`name`)
@@ -124,9 +129,9 @@ INSERT INTO `roles` (`name`)
             ('normal');
 
 INSERT INTO `users` (`username`, `firstname`, `lastname`, `address`, `email`, `phone`, `avatar`, `password`, wecol_db.users.`countries_id`, `roles_id`)
-    VALUES ('sergiog', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'sergio.gonzalez@wecol.com', '3000000000', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057, 1),
-            ('jenniferp', 'Jennifer', 'Perez Romero', 'Calle siempre viva', 'jenny.perez@wecol.com', '3220000000', 'https://avatars.githubusercontent.com/u/96081774?v=4', 'Temporal2022*', 057, 1),
-            ('davidn', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'luis.nunez@wecol.com', '3221111111', 'https://avatars.githubusercontent.com/u/89990712?v=4', 'Temporal2022*', 057, 1),
-            ('SoyChechoGonzalez', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'soysergiogonzalez@outlook.es', '3008341223', 'https://avatars.githubusercontent.com/u/61368094?v=4', 'o@YmGPD7fMpM3gXvu', 057, 2),
-            ('PRJennifer', 'Jennifer', 'Pérez Romero', 'Calle siempre viva', 'prjennifer@hotmail.com', '3224591043', 'https://avatars.githubusercontent.com/u/96081774?v=4', 'Temporal2022*', 057, 2),
-            ('DavidNr13', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'nrld13@hotmail.com', '3229808475', 'https://avatars.githubusercontent.com/u/89990712?v=4', 'Temporal2022*', 057, 2);
+    VALUES ('sergiog', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'sergio.gonzalez@wecol.com', '3000000000', 'sergio.png', 'o@YmGPD7fMpM3gXvu', 057, 1),
+            ('jenniferp', 'Jennifer', 'Perez Romero', 'Calle siempre viva', 'jenny.perez@wecol.com', '3220000000', 'sergio.png', 'Temporal2022*', 057, 1),
+            ('davidn', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'luis.nunez@wecol.com', '3221111111', 'sergio.png', 'Temporal2022*', 057, 1),
+            ('SoyChechoGonzalez', 'Sergio', 'González Sánchez', 'Calle falsa 123', 'soysergiogonzalez@outlook.es', '3008341223', 'sergio.png', 'o@YmGPD7fMpM3gXvu', 057, 2),
+            ('PRJennifer', 'Jennifer', 'Pérez Romero', 'Calle siempre viva', 'prjennifer@hotmail.com', '3224591043', 'sergio.png', 'Temporal2022*', 057, 2),
+            ('DavidNr13', 'Luis', 'David Nuñez', 'Calle Pingüino 123', 'nrld13@hotmail.com', '3229808475', 'sergio.png', 'Temporal2022*', 057, 2);
