@@ -51,8 +51,9 @@ ALTER TABLE `shoppingcart`
 CREATE TABLE `products` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
-    `price` INT UNSIGNED NOT NULL DEFAULT 0,
-    `description` VARCHAR(45) NOT NULL,
+    `price` INT UNSIGNED NOT NULL,
+    `category` VARCHAR(45) NOT NULL,
+    `description` VARCHAR(200) NOT NULL,
     `image` VARCHAR(200) NOT NULL DEFAULT 'sergio.png',
     PRIMARY KEY (`id`)
 );
@@ -65,11 +66,6 @@ ALTER TABLE `products_shoppingcart`
     ADD CONSTRAINT `FK_products_id` FOREIGN KEY (`products_id`) REFERENCES products(`id`),
     ADD CONSTRAINT `FK_shoppingcart_id` FOREIGN KEY (`shoppingcart_id`) REFERENCES shoppingcart(`id`);
 
-CREATE TABLE `categories` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(45) NOT NULL UNIQUE,
-    PRIMARY KEY (`id`)
-);
 CREATE TABLE `brands` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL UNIQUE,
@@ -84,9 +80,7 @@ CREATE TABLE `opinions` (
 );
 
 ALTER TABLE `products`
-    ADD COLUMN `categories_id` INT NOT NULL DEFAULT 1,
     ADD COLUMN `brands_id` INT NOT NULL DEFAULT 1,
-    ADD CONSTRAINT `FK_categories_id` FOREIGN KEY (`categories_id`) REFERENCES categories(`id`),
     ADD CONSTRAINT `FK_brands_id` FOREIGN KEY (`brands_id`) REFERENCES brands(`id`);
 
 ALTER TABLE `opinions`
@@ -94,15 +88,6 @@ ALTER TABLE `opinions`
     ADD COLUMN `users_id3` INT NOT NULL,
     ADD CONSTRAINT `FK_products_id2` FOREIGN KEY (`products_id2`) REFERENCES products(`id`),
     ADD CONSTRAINT `FK_users_id3` FOREIGN KEY (`users_id3`) REFERENCES users(`id`);
-
-INSERT INTO `categories` VALUES
-                             (1, 'Mouse'),
-                             (2, 'Teclado'),
-                             (3, 'Audífonos'),
-                             (4, 'Relojes'),
-                             (5, 'Accesorios'),
-                             (6, 'Portátiles'),
-                             (7, 'Celulares');
 
 INSERT INTO `brands` (`name`)
     VALUES('Apple'),
@@ -112,14 +97,11 @@ INSERT INTO `brands` (`name`)
             ('Alien'),
             ('Beats');
 
-INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
-    VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'sergio.png', 1, 1),
-            ('AirPods', '2000000', 'Esto son unos AirPods', 'sergio.png', 1, 1),
-           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 1, 1),
-           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 1, 1);
-
-INSERT INTO `products` (`name`, `price`, `description`, `image`, `categories_id`, `brands_id`)
-    VALUES ('MP3', '15000', 'Esto es una MP3', 'sergio.png', 4, 2);
+INSERT INTO `products` (`name`, `price`, `description`, `image`, `category`, `brands_id`)
+    VALUES ('Macbook Air 2020', '5000000', 'Esto es una macbook', 'sergio.png', 'Mouse', 1),
+            ('AirPods', '2000000', 'Esto son unos AirPods', 'sergio.png', 'Teclado', 1),
+           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 'Audífonos', 1),
+           ('iPhone', '3000000', 'Esto es un iPhone', 'sergio.png', 'Celulares', 1);
 
     INSERT INTO `countries` (`id`, `name`)
     VALUES(057, 'Colombia');
